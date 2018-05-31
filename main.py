@@ -197,7 +197,7 @@ class Mat(object):
     return temp_mat
 
 
-  def dotmul(self, other):
+  def hadprod(self, other):  # Hadamard product i.e. element-wise mul
     if type(self) != type(other) or \
       self.m != other.m or self.n != other.n:
       raise TypeError
@@ -209,6 +209,17 @@ class Mat(object):
         temp_mat.values[row_num], other.values[row_num]
       ))
     return temp_mat
+
+
+  def dotprod(self, other):
+    if type(self) != type(other) or \
+      self.m != other.m or self.n != other.n or \
+      (self.m != 1 and self.n != 1):
+      raise TypeError  # must be vectors of same dimensions
+    
+    temp_mat = self.transpose().matmul(other)
+    
+    return temp_mat.values[0][0]
 
 
   def cofactors(self):
