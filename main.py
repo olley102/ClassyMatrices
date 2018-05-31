@@ -214,10 +214,18 @@ class Mat(object):
   def dotprod(self, other):
     if type(self) != type(other) or \
       self.m != other.m or self.n != other.n or \
-      (self.m != 1 and self.n != 1):
-      raise TypeError  # must be vectors of same dimensions
+      (self.m != 1 and self.n != 1):  # check for vectors
+      raise TypeError
     
-    temp_mat = self.transpose().matmul(other)
+    temp_mat = self.copy()
+    other_temp = other.copy()
+
+    if self.m == 1:
+      other_temp = other_temp.transpose()
+    else:
+      temp_mat = temp_mat.transpose()
+
+    temp_mat = temp_mat.matmul(other_temp)
     
     return temp_mat.values[0][0]
 
