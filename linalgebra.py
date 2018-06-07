@@ -482,6 +482,7 @@ class Shape2D(object):
 
 
   def _get_trig(degrees):
+    # for more accurate trig with rationals
     rad = math.radians(degrees)
     sine = 0
     cosine = 0
@@ -496,19 +497,19 @@ class Shape2D(object):
     elif rem in (210, 330):
       sine = -0.5
       cosine = math.cos(rad)
-    elif rem % 360 in (120, 240):
+    elif rem in (120, 240):
       sine = math.sin(rad)
       cosine = -0.5
-    elif rem % 360 == 0:
+    elif rem == 0:
       sine = 0
       cosine = 1
-    elif rem % 360 == 90:
+    elif rem == 90:
       sine = 1
       cosine = 0
-    elif rem % 360 == 180:
+    elif rem == 180:
       sine = 0
       cosine = -1
-    elif rem % 360 == 270:
+    elif rem == 270:
       sine = -1
       cosine = 0
     else:
