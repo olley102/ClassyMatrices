@@ -5,13 +5,31 @@ import copy
 import matplotlib.pyplot as plt
 
 
+"""
+For plotting functions, pyplot is required locally
+with fig and ax set up before use.
+
+Example:
+  # required imports
+  import linalgebra as la
+  import matplotlib.pyplot as plt
+  
+  # figure setup
+  fig, ax = plt.subplots()
+  
+  # la and display
+  shape = la.Shape2D.unitsquare()
+  shape.plot(ax)
+  ax.axis("scaled")
+"""
+
+
 """Matrix class"""
 class Mat(object):
   m = 1  # vertical length
   n = 1  # horizontal length
   values = []
   is_float = False
-
 
   def __init__(self, vals:list):
     # False for int, True for float:
@@ -36,21 +54,17 @@ class Mat(object):
     if vals_float:
       self.makefloat()
 
-
   def __repr__(self):
     text = ""
     for row in self.values:
       text += "{}\n".format(row)
     return text
 
-
   def zeros(vert_num, hor_num):  # no need for self here
     return Mat([[0]*hor_num for i in range(vert_num)])
-  
-
+ 
   def ones(vert_num, hor_num):
     return Mat([[1]*hor_num for i in range(vert_num)])
-
 
   def identity(num):
     temp_mat = Mat.zeros(num, num)
@@ -58,20 +72,17 @@ class Mat(object):
       temp_mat.values[row_num][row_num] = 1
     return temp_mat
 
-
   def randuniform(vert_num, hor_num, start=0, stop=1):  # returns float
     new_values = [[random.uniform(start, stop) for i in range(hor_num)]
       for j in range(vert_num)
     ]
     return Mat(new_values)
 
-
   def randint(vert_num, hor_num, start, stop):  # inclusive
     new_values = [[random.randint(start, stop) for i in range(hor_num)]
       for j in range(vert_num)
     ]
     return Mat(new_values)
-
 
   def _check_float(obj):  # no need for self in private method
     if obj.is_float:
@@ -88,7 +99,6 @@ class Mat(object):
     
     return False
 
-
   def makefloat(self):  # makes elements all float
     self.is_float = True
     for row_num in range(self.m):
@@ -97,14 +107,11 @@ class Mat(object):
         ))
     return
   
-
   def _add(val1, val2):  # used for map
     return val1 + val2
   
-
   def _mul(val1, val2):
     return val1 * val2
-
 
   def __add__(self, other):
     temp_mat = self.copy()
@@ -136,10 +143,8 @@ class Mat(object):
     
     return temp_mat
 
-
   def __sub__(self, other):
     return self + other * -1
-
 
   def power(self, other):
     if type(other) not in (int, float):
@@ -154,7 +159,6 @@ class Mat(object):
 
     return temp_mat
 
-
   def _check_type(obj):
     classes = (
       "Mat",
@@ -163,18 +167,15 @@ class Mat(object):
     )
     return obj.__class__.__name__ in classes
 
-
   def _make_type(vals, new_type):
     if new_type == type(Point2D(0, 0)):
       return Point2D(vals[0][0], vals[1][0])
     
     return new_type(vals)
 
-
   def _check_mul_compat(obj, other):
     return obj.n == other.m and \
       Mat._check_type(obj) and Mat._check_type(other)
-
 
   def matmul(self, other):
     saved_type = type(self)  # to return correct type
@@ -202,7 +203,6 @@ class Mat(object):
 
     return Mat._make_type(new_values, saved_type)
 
-
   def __mul__(self, other):
     temp_mat = None
 
@@ -217,7 +217,6 @@ class Mat(object):
 
     return temp_mat
 
-
   def simplemul(self, other):  # allows other to be Fraction
     temp_mat = self.copy()
     for row_num in range(len(temp_mat.values)):
@@ -226,7 +225,6 @@ class Mat(object):
         temp_mat.values[row_num]
       ))
     return temp_mat
-
 
   def hadprod(self, other):  # Hadamard product i.e. element-wise mul
     if type(self) != type(other) or \
@@ -240,7 +238,6 @@ class Mat(object):
         temp_mat.values[row_num], other.values[row_num]
       ))
     return temp_mat
-
 
   def dotprod(self, other):
     if type(self) != type(other) or \
@@ -260,7 +257,6 @@ class Mat(object):
     
     return temp_mat.values[0][0]
 
-
   def cofactors(self):
     if self.m <= 2:
       return self
@@ -275,7 +271,6 @@ class Mat(object):
           square.det() * (-1)**(row_num + col_num)
     return temp_mat
 
-
   def inverse(self):
     the_det = self.det()  # includes dimension validation
     if self.det() == 0:
@@ -285,7 +280,6 @@ class Mat(object):
 
     return the_adj * (1/the_det)
 
-
   def fracinverse(self):  # returns Mat of Fraction
     the_det = self.det()
     if self.det() == 0:
@@ -294,7 +288,6 @@ class Mat(object):
     the_adj = self.cofactors().transpose()
 
     return the_adj.simplemul(Fraction(1, the_det))
-
 
   def det(self):
     if self.m != self.n:
@@ -316,24 +309,20 @@ class Mat(object):
       for i in range(self.m)
     )
 
-
   def copy(self):
     saved_type = type(self)
     new_values = self.values[:]
     return Mat._make_type(new_values, saved_type)
-
 
   def deepcopy(self):
     saved_type = type(self)
     new_values = copy.deepcopy(self.values)
     return Mat._make_type(new_values, saved_type)
 
-
   def get(self, key1, key2):
     if key2 == "all":
       return self.values[key1]
     return self.values[key1][key2]
-
 
   def alter(self, key1, key2, val):
     self.values[key1][key2] = val
@@ -341,19 +330,16 @@ class Mat(object):
       self.makefloat()
     return
 
-
   def delcol(self, col_num):
     for row_num in range(self.m):
       del self.values[row_num][col_num]
     self.n -= 1
     return
   
-
   def delrow(self, row_num):
     del self.values[row_num]
     self.m -= 1
     return
-
 
   def insert(self, vals:list, pos:int = 0, orientation:str = "r"):
     """
@@ -381,7 +367,6 @@ class Mat(object):
     
     return
   
-
   def transpose(self):
     saved_type = type(self)
     if self.__class__.__name__ == "Point2D":
@@ -393,13 +378,11 @@ class Mat(object):
 """Transformation matrix class for 2D plot"""
 class Transformation2D(Mat):  # square 2 x 2
 
-
   def __init__(self, vals:list):
     super().__init__(vals)
 
     if not (self.m == self.n == 2):
       raise TypeError
-
 
   def applyunitsq(self):
     shape = Shape2D.unitsquare()
@@ -410,28 +393,22 @@ class Transformation2D(Mat):  # square 2 x 2
 """Point class for 2D plot"""
 class Point2D(Mat):  # vector 2 x 1
 
-
   def __init__(self, x, y):
     super().__init__([[x], [y]])
-
 
   def x(self):
     return self.get(0, 0)
 
-  
   def y(self):
     return self.get(1, 0)
-
 
   def alter(self, x, y):
     super().alter(self, 0, 0, x)
     super().alter(self, 1, 0, y)
     return
 
-
-  def plot(self):
-    plt.plot(self.x(), self.y(), "o")
-    plt.show()
+  def plot(self, ax):
+    ax.plot(self.x(), self.y(), "o")
 
 
 """Shape class for 2D plot"""
@@ -440,10 +417,8 @@ class Shape2D(object):
   anchor = 0
   # anchor is point from which shape is drawn, rotated, etc
 
-
   def __init__(self, points:list):
     self.points = points
-
 
   def __repr__(self):
     ret_str = "Shape2D points:\n"
@@ -453,7 +428,6 @@ class Shape2D(object):
     
     return ret_str
 
-
   def unitsquare():
     return Shape2D([
       Point2D(0, 0),
@@ -462,12 +436,10 @@ class Shape2D(object):
       Point2D(0, 1)
     ])
 
-
   def transform(self, t_mat):
     for p_num, p in enumerate(self.points):
       self.points[p_num] = t_mat * p
     return
-
 
   def translate(self, x, y):
     t_point = Point2D(x, y)  # translation vector
@@ -475,11 +447,9 @@ class Shape2D(object):
       self.points[p_num] += t_point
     return
 
-
   def setorigin(self):
     t_point = self.points[0]  # translation vector
     self.translate(-t_point.x(), -t_point.y())
-
 
   def _get_trig(degrees):
     # for more accurate trig with rationals
@@ -518,7 +488,6 @@ class Shape2D(object):
     
     return sine, cosine
 
-
   def reflect(self, degrees):
     """
     degrees is angle between line through anchor and
@@ -538,7 +507,6 @@ class Shape2D(object):
 
     self.translate(saved_anchor.x(), saved_anchor.y())
     return
-
 
   def rotate(self, degrees):
     """
@@ -560,10 +528,8 @@ class Shape2D(object):
     self.translate(saved_anchor.x(), saved_anchor.y())
     return
 
-
   def copy(self):
     return Shape2D(self.points[:])
-
 
   def deepcopy(self):
     new_points = []
@@ -571,15 +537,12 @@ class Shape2D(object):
       new_points.append(p.deepcopy())
     return Shape2D(new_points)
 
-
-  def plot(self):
+  def plot(self, ax):
     x = []
     y = []
     for p in self.points:
       x.append(p.x())
       y.append(p.y())
 
-    plt.fill(x, y)
-    plt.axis("scaled")
-    plt.show()
+    ax.fill(x, y)
     return
