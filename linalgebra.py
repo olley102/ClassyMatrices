@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 
 """
-For plotting functions, pyplot is required locally
+For plotting methods, pyplot is required locally
 with fig and ax set up before use.
 
 Example:
