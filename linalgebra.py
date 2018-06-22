@@ -392,9 +392,10 @@ class Transformation2D(Mat):  # square 2 x 2
 
 """Point class for 2D plot"""
 class Point2D(Mat):  # vector 2 x 1
-
-  def __init__(self, x, y):
+  plotsize = 5
+  def __init__(self, x, y, plotsize=5):
     super().__init__([[x], [y]])
+    self.plotsize = plotsize
 
   def x(self):
     return self.get(0, 0)
@@ -403,12 +404,13 @@ class Point2D(Mat):  # vector 2 x 1
     return self.get(1, 0)
 
   def alter(self, x, y):
-    super().alter(self, 0, 0, x)
-    super().alter(self, 1, 0, y)
+    super().alter(0, 0, x)
+    super().alter(1, 0, y)
     return
 
   def plot(self, ax):
-    ax.plot(self.x(), self.y(), "o")
+    ax.plot(self.x(), self.y(), "o", ms=self.plotsize)
+
 
 
 """Shape class for 2D plot"""
@@ -442,7 +444,15 @@ class Shape2D(object):
     return
 
   def translate(self, x, y):
+
+    if len(self.points) == 1:
+      saved_x = self.points[0].x()
+      saved_y = self.points[0].y()
+      self.points[0].alter(x + saved_x, y + saved_y)
+      return
+
     t_point = Point2D(x, y)  # translation vector
+
     for p_num in range(len(self.points)):
       self.points[p_num] += t_point
     return
@@ -528,6 +538,23 @@ class Shape2D(object):
     self.translate(saved_anchor.x(), saved_anchor.y())
     return
 
+  def enlarge(self, x, y):
+    if len(self.points) == 1:
+      self.points[0].plotsize *= x
+      return
+
+    saved_anchor = self.points[self.anchor]
+    self.setorigin()
+
+    t_mat = Transformation2D([
+      [x, 0],
+      [0, y]
+    ])
+    self.transform(t_mat)
+
+    self.translate(saved_anchor.x(), saved_anchor.y())
+    return
+
   def copy(self):
     return Shape2D(self.points[:])
 
@@ -538,6 +565,9 @@ class Shape2D(object):
     return Shape2D(new_points)
 
   def plot(self, ax):
+    if len(self.points) == 1:
+      self.points[0].plot(ax)
+
     x = []
     y = []
     for p in self.points:
