@@ -6,6 +6,7 @@ fig1, ax1 = plt.subplots()
 shape = la.Shape2D.unitsquare()
 shape.plot(ax1)
 ax1.axis("scaled")
+fig1.show()
 
 t_mat = la.Transformation2D([
     [1, 2],
@@ -27,3 +28,6 @@ new_sq.reflect(30)
 print(new_sq)
 new_sq.plot(ax2)
 ax2.axis("scaled")
+
+fig2.show()
+plt.show()
