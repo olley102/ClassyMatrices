@@ -2,10 +2,17 @@ import linalgebra as la
 import matplotlib.pyplot as plt
 import math
 
+# single point (circle)
 shape = la.Shape2D([
   la.Point2D(0, 0, 5)
 ])
-shape.points[0].alter(1, 0)
+
+# # triangle
+# shape = la.Shape2D([
+#   la.Point2D(0, 0),
+#   la.Point2D(1, 0),
+#   la.Point2D(0.5, math.sqrt(0.75))
+# ])
 
 
 def ontype(event):
@@ -33,8 +40,7 @@ def ontype(event):
 
   # plt.gca().clear()
   shape.plot(ax)
-  ax.set_ylim(-1.5, 1.5)
-  ax.set_xlim(-1.5, 1.5)
+  # could change ylim and xlim here
   plt.draw()
 
 
@@ -46,3 +52,5 @@ ax.set_xlim(-3, 3)
 fig.canvas.mpl_connect("key_press_event", ontype)
 plt.show()
 plt.draw()
+
+# idea: animation?
