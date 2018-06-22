@@ -1,1 +1,1 @@
-# NotANumPyCopy
+# linalgebra
