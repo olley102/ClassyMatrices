@@ -24,16 +24,32 @@ Example:
 """
 
 
-"""Matrix class"""
 class Mat(object):
-  m = 1  # vertical length
-  n = 1  # horizontal length
+  """Matrix
+  
+  Variables:
+    m (int): vertical size
+    n (int): horizontal size
+    values (2D list): values in matrix
+    is_float (bool): matrix contains floats
+  """
+
+  m = 1
+  n = 1
   values = []
   is_float = False
 
   def __init__(self, vals:list):
-    # False for int, True for float:
-    vals_float = False
+    """Initializes matrix.
+    
+    Args:
+      vals (2D list) - values in matrix.
+  
+    Raises:
+      TypeError: if vals contains values of type neither int nor float.
+    """
+
+    vals_float = False  # False for int, True for float
 
     m_temp = len(vals)
     n_temp = len(vals[0])
@@ -45,7 +61,9 @@ class Mat(object):
         if type(num) == float:
           vals_float = True
         elif type(num) != int:
-          raise TypeError
+          raise TypeError(
+            "vals contains values of type neither int nor float"
+          )
     
     self.values = vals[:]
     self.m = m_temp
@@ -55,38 +73,109 @@ class Mat(object):
       self.makefloat()
 
   def __repr__(self):
+    return self.__str__()
+  
+  def __str__(self):
     text = ""
     for row in self.values:
       text += "{}\n".format(row)
     return text
 
-  def zeros(vert_num, hor_num):  # no need for self here
+  def zeros(vert_num, hor_num):
+    """Initializes Mat of zeros.
+    
+    Args:
+      vert_num: vertical size.
+      hor_num: horizontal size.
+    
+    Returns:
+      The matrix of zeros.
+    """
+    
     return Mat([[0]*hor_num for i in range(vert_num)])
  
   def ones(vert_num, hor_num):
+    """Initializes Mat of ones.
+    
+    Args:
+      vert_num: vertical size.
+      hor_num: horizontal size.
+    
+    Returns:
+      The matrix of ones.
+    """
+    
     return Mat([[1]*hor_num for i in range(vert_num)])
 
   def identity(num):
+    """Initializes identity Mat.
+    Ones lie through center diagonal from top-left to bottom-right.
+    Rest are zeros.
+    
+    Args:
+      num: size in either direction of square matrix.
+    
+    Returns:
+      The identity matrix.
+    """
+    
     temp_mat = Mat.zeros(num, num)
     for row_num in range(num):
       temp_mat.values[row_num][row_num] = 1
     return temp_mat
 
-  def randuniform(vert_num, hor_num, start=0, stop=1):  # returns float
+  def randuniform(vert_num, hor_num, start=0, stop=1):
+    """Initializes Mat of uniformly random values.
+    Range is inclusive.
+    
+    Args:
+      vert_num: vertical size.
+      hor_num: horizontal size.
+      start: minimum of range. Default: 0
+      stop: maximum of range. Default: 1
+    
+    Return:
+      The matrix of randoms.
+    """
+    
     new_values = [[random.uniform(start, stop) for i in range(hor_num)]
       for j in range(vert_num)
     ]
     return Mat(new_values)
 
-  def randint(vert_num, hor_num, start, stop):  # inclusive
+  def randint(vert_num, hor_num, start, stop):
+    """Initializes Mat of random ints.
+    Range is inclusive.
+    
+    Args:
+      vert_num: vertical size.
+      hor_num: horizontal size.
+      start: minimum of range.
+      stop: maximum of range.
+    
+    Return:
+      The matrix of randoms.
+    """
+    
     new_values = [[random.randint(start, stop) for i in range(hor_num)]
       for j in range(vert_num)
     ]
     return Mat(new_values)
 
-  def _check_float(obj):  # no need for self in private method
-    if obj.is_float:
-      return True
+  def _check_float(obj):
+    """Checks if matrix contains float.
+    Modifies obj.is_float.
+    
+    Args:
+      obj: matrix of type Mat or a child of Mat.
+    
+    Returns:
+      True: if contains float.
+      False: otherwise.
+    
+    Raises:
+      TypeError: if vals contains values of type neither int nor float.
+    """
 
     for row in obj.values:
 
@@ -95,17 +184,23 @@ class Mat(object):
           obj.is_float = True
           return True
         elif type(val) != int:
-          raise TypeError
+          raise TypeError(
+            "vals contains values of type neither int nor float"
+          )
     
+    obj.is_float = False
     return False
 
   def makefloat(self):  # makes elements all float
+    """Makes matrix values type float.
+    Modifies self in-place.
+    """
+    
     self.is_float = True
     for row_num in range(self.m):
         self.values[row_num] = list(map(
           float, self.values[row_num]
         ))
-    return
   
   def _add(val1, val2):  # used for map
     return val1 + val2
@@ -114,6 +209,21 @@ class Mat(object):
     return val1 * val2
 
   def __add__(self, other):
+    """Adds values in other to self.
+    Other can be int or float for simplicity.
+    
+    Args:
+      self
+      other: Mat, child of Mat, int or float.
+    
+    Returns:
+      Mat or child of Mat.
+    
+    Raises:
+      TypeError: if self and other are same type but different size.
+      TypeError: if other is of invalid type.
+    """
+    
     temp_mat = self.copy()
 
     if type(other) == type(temp_mat):
@@ -125,7 +235,9 @@ class Mat(object):
             temp_mat.values[row_num], other.values[row_num]
           ))
       else:
-        raise TypeError
+        raise TypeError(
+          "self and other are same type but different size"
+        )
 
     elif type(other) in (int, float):
 
@@ -136,7 +248,7 @@ class Mat(object):
         ))
 
     else:
-      raise TypeError
+      raise TypeError("other is of invalid type")
     
     if Mat._check_float(temp_mat):
       temp_mat.makefloat()
@@ -147,8 +259,23 @@ class Mat(object):
     return self + other * -1
 
   def power(self, other):
+    """Raises to the power of other, element-wise.
+    
+    Args:
+      self
+      other: power to raise to.
+    
+    Returns:
+      Mat or child or Mat.
+    
+    Raises:
+      TypeError: if other is of type neither int nor float.
+    """
+    
     if type(other) not in (int, float):
-      raise TypeError
+      raise TypeError(
+        "other is of type neither int nor float."
+      )
     temp_mat = self.copy()
 
     for row_num in range(len(temp_mat.values)):
@@ -178,13 +305,27 @@ class Mat(object):
       Mat._check_type(obj) and Mat._check_type(other)
 
   def matmul(self, other):
-    saved_type = type(self)  # to return correct type
+    """Matrix multiplication.
+    
+    Args:
+      self
+      other: Mat or child of Mat to multiply with.
+    
+    Returns:
+      Mat or child of Mat.
+    
+    Raises:
+      ValueError: if self and other are not compatible for matmul.
+    """
+    
     if other.__class__.__name__ == "Point2D" or \
       (
         self.__class__.__name__ == "Transformation2D" and
         not (other.m == other.n == 2)
       ):
       saved_type = type(other)
+    else:
+      saved_type = type(self)  # to return correct type
     
     new_values = [[0]*other.n for i in range(self.m)]
     other_tr = other.transpose()
@@ -199,11 +340,22 @@ class Mat(object):
           ))
 
     else:
-      raise TypeError
+      raise ValueError(
+        "self and other are not compatible for matmul"
+      )
 
     return Mat._make_type(new_values, saved_type)
 
   def __mul__(self, other):
+    """Multiplies self with other.
+    
+    Args:
+      self
+      other: Mat, child of Mat, int or float to multiply with.
+    
+    Returns:
+      Mat or child of Mat.
+    """
     temp_mat = None
 
     if type(other) == int or type(other) == float:
@@ -217,7 +369,17 @@ class Mat(object):
 
     return temp_mat
 
-  def simplemul(self, other):  # allows other to be Fraction
+  def simplemul(self, other):
+    """Multiply by scalar.
+    
+    Args:
+      self
+      other: int, float or similar to multiply with.
+    
+    Returns:
+      Mat or child of Mat.
+    """
+    
     temp_mat = self.copy()
     for row_num in range(len(temp_mat.values)):
       temp_mat.values[row_num] = list(map(
@@ -226,10 +388,25 @@ class Mat(object):
       ))
     return temp_mat
 
-  def hadprod(self, other):  # Hadamard product i.e. element-wise mul
+  def hadprod(self, other):
+    """Hadamard product i.e. element-wise mul
+    
+    Args:
+      self
+      other: Mat or child of Mat to multiply with.
+    
+    Returns:
+      Mat or child of Mat.
+    
+    Raises:
+      ValueError: if self and other have different size.
+    """
+    
     if type(self) != type(other) or \
       self.m != other.m or self.n != other.n:
-      raise TypeError
+      raise ValueError(
+        "self and other have different size."
+      )
     temp_mat = self.copy()
     
     for row_num in range(temp_mat.m):
@@ -240,10 +417,26 @@ class Mat(object):
     return temp_mat
 
   def dotprod(self, other):
+    """Dot product.
+    p = x'y where x=self, y=other
+    
+    Args:
+      self
+      other: Mat or child of Mat.
+    
+    Returns:
+      int or float.
+    
+    Raises:
+      TypeError: if types are different.
+      TypeError: if sizes are different.
+      TypeError: if self or other are not vectors.
+    """
+    
     if type(self) != type(other) or \
       self.m != other.m or self.n != other.n or \
       (self.m != 1 and self.n != 1):  # check for vectors
-      raise TypeError
+      raise TypeError("invalid types or sizes")
     
     temp_mat = self.copy()
     other_temp = other.copy()
