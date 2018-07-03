@@ -26,12 +26,11 @@ Example:
 
 class Mat(object):
   """Matrix
-  
-  Variables:
-    m (int): vertical size
-    n (int): horizontal size
-    values (2D list): values in matrix
-    is_float (bool): matrix contains floats
+
+  :var m (int): vertical size
+  :var n (int): horizontal size
+  :var values (2D list): values in matrix
+  :var is_float (bool): matrix contains floats
   """
 
   m = 1
@@ -41,12 +40,10 @@ class Mat(object):
 
   def __init__(self, vals:list):
     """Initializes matrix.
-    
-    Args:
-      vals (2D list) - values in matrix.
+
+    :param vals (2D list): values in matrix.
   
-    Raises:
-      TypeError: if vals contains values of type neither int nor float.
+    :raises TypeError: if vals contains values of type neither int nor float.
     """
 
     vals_float = False  # False for int, True for float
@@ -83,26 +80,20 @@ class Mat(object):
 
   def zeros(vert_num, hor_num):
     """Initializes Mat of zeros.
-    
-    Args:
-      vert_num: vertical size.
-      hor_num: horizontal size.
-    
-    Returns:
-      The matrix of zeros.
+
+    :param vert_num: vertical size.
+    :param hor_num: horizontal size.
+    :return: The matrix of zeros.
     """
     
     return Mat([[0]*hor_num for i in range(vert_num)])
  
   def ones(vert_num, hor_num):
     """Initializes Mat of ones.
-    
-    Args:
-      vert_num: vertical size.
-      hor_num: horizontal size.
-    
-    Returns:
-      The matrix of ones.
+
+    :param vert_num: vertical size.
+    :param hor_num: horizontal size.
+    :return: The matrix of ones.
     """
     
     return Mat([[1]*hor_num for i in range(vert_num)])
@@ -111,12 +102,9 @@ class Mat(object):
     """Initializes identity Mat.
     Ones lie through center diagonal from top-left to bottom-right.
     Rest are zeros.
-    
-    Args:
-      num: size in either direction of square matrix.
-    
-    Returns:
-      The identity matrix.
+
+    :param num: size in either direction of square matrix.
+    :return: The identity matrix.
     """
     
     temp_mat = Mat.zeros(num, num)
@@ -127,15 +115,12 @@ class Mat(object):
   def randuniform(vert_num, hor_num, start=0, stop=1):
     """Initializes Mat of uniformly random values.
     Range is inclusive.
-    
-    Args:
-      vert_num: vertical size.
-      hor_num: horizontal size.
-      start: minimum of range. Default: 0
-      stop: maximum of range. Default: 1
-    
-    Return:
-      The matrix of randoms.
+
+    :param vert_num: vertical size.
+    :param hor_num: horizontal size.
+    :param start: minimum of range. Default: 0
+    :param stop: maximum of range. Default: 1
+    :return: The matrix of randoms.
     """
     
     new_values = [[random.uniform(start, stop) for i in range(hor_num)]
@@ -146,15 +131,12 @@ class Mat(object):
   def randint(vert_num, hor_num, start, stop):
     """Initializes Mat of random ints.
     Range is inclusive.
-    
-    Args:
-      vert_num: vertical size.
-      hor_num: horizontal size.
-      start: minimum of range.
-      stop: maximum of range.
-    
-    Return:
-      The matrix of randoms.
+
+    :param vert_num: vertical size.
+    :param hor_num: horizontal size.
+    :param start: minimum of range.
+    :param stop: maximum of range.
+    :return: The matrix of randoms.
     """
     
     new_values = [[random.randint(start, stop) for i in range(hor_num)]
@@ -166,15 +148,10 @@ class Mat(object):
     """Checks if matrix contains float.
     Modifies obj.is_float.
     
-    Args:
-      obj: matrix of type Mat or a child of Mat.
-    
-    Returns:
-      True: if contains float.
-      False: otherwise.
-    
-    Raises:
-      TypeError: if vals contains values of type neither int nor float.
+    :param obj: matrix of type Mat or a child of Mat.
+    :return: True: if contains float.
+    :return: False: otherwise.
+    :raises TypeError: if vals contains values of type neither int nor float.
     """
 
     for row in obj.values:
@@ -211,17 +188,11 @@ class Mat(object):
   def __add__(self, other):
     """Adds values in other to self.
     Other can be int or float for simplicity.
-    
-    Args:
-      self
-      other: Mat, child of Mat, int or float.
-    
-    Returns:
-      Mat or child of Mat.
-    
-    Raises:
-      TypeError: if self and other are same type but different size.
-      TypeError: if other is of invalid type.
+
+    :param other: Mat, child of Mat, int or float.
+    :return: Mat or child of Mat.
+    :raises TypeError: if self and other are same type but different size.
+    :raises TypeError: if other is of invalid type.
     """
     
     temp_mat = self.copy()
@@ -260,16 +231,10 @@ class Mat(object):
 
   def power(self, other):
     """Raises to the power of other, element-wise.
-    
-    Args:
-      self
-      other: power to raise to.
-    
-    Returns:
-      Mat or child or Mat.
-    
-    Raises:
-      TypeError: if other is of type neither int nor float.
+
+    :param other: power to raise to.
+    :return: Mat or child or Mat.
+    :raises TypeError: if other is of type neither int nor float.
     """
     
     if type(other) not in (int, float):
@@ -306,16 +271,10 @@ class Mat(object):
 
   def matmul(self, other):
     """Matrix multiplication.
-    
-    Args:
-      self
-      other: Mat or child of Mat to multiply with.
-    
-    Returns:
-      Mat or child of Mat.
-    
-    Raises:
-      ValueError: if self and other are not compatible for matmul.
+
+    :param other: Mat or child of Mat to multiply with.
+    :return: Mat or child of Mat.
+    :raises ValueError: if self and other are not compatible for matmul.
     """
     
     if other.__class__.__name__ == "Point2D" or \
@@ -348,13 +307,9 @@ class Mat(object):
 
   def __mul__(self, other):
     """Multiplies self with other.
-    
-    Args:
-      self
-      other: Mat, child of Mat, int or float to multiply with.
-    
-    Returns:
-      Mat or child of Mat.
+
+    :param other: Mat, child of Mat, int or float to multiply with.
+    :return: Mat or child of Mat.
     """
     temp_mat = None
 
@@ -371,13 +326,9 @@ class Mat(object):
 
   def simplemul(self, other):
     """Multiply by scalar.
-    
-    Args:
-      self
-      other: int, float or similar to multiply with.
-    
-    Returns:
-      Mat or child of Mat.
+
+    :param other: int, float or similar to multiply with.
+    :return: Mat or child of Mat.
     """
     
     temp_mat = self.copy()
@@ -390,16 +341,10 @@ class Mat(object):
 
   def hadprod(self, other):
     """Hadamard product i.e. element-wise mul
-    
-    Args:
-      self
-      other: Mat or child of Mat to multiply with.
-    
-    Returns:
-      Mat or child of Mat.
-    
-    Raises:
-      ValueError: if self and other have different size.
+
+    :param other: Mat or child of Mat to multiply with.
+    :return: Mat or child of Mat.
+    :raises ValueError: if self and other have different size.
     """
     
     if type(self) != type(other) or \
@@ -419,18 +364,12 @@ class Mat(object):
   def dotprod(self, other):
     """Dot product.
     p = x'y where x=self, y=other
-    
-    Args:
-      self
-      other: Mat or child of Mat.
-    
-    Returns:
-      int or float.
-    
-    Raises:
-      TypeError: if types are different.
-      TypeError: if sizes are different.
-      TypeError: if self or other are not vectors.
+
+    :param other: Mat or child of Mat.
+    :return: int or float.
+    :raises TypeError: if types are different.
+    :raises TypeError: if sizes are different.
+    :raises TypeError: if self or other are not vectors.
     """
     
     if type(self) != type(other) or \
@@ -451,6 +390,8 @@ class Mat(object):
     return temp_mat.values[0][0]
 
   def cofactors(self):
+    """Creates Mat of cofactors."""
+
     if self.m <= 2:
       return self
 
@@ -465,7 +406,8 @@ class Mat(object):
     return temp_mat
 
   def inverse(self):
-    the_det = self.det()  # includes dimension validation
+    """Creates inverse Mat."""
+    the_det = self.det()  # includes size validation
     if self.det() == 0:
       return
     
@@ -474,6 +416,7 @@ class Mat(object):
     return the_adj * (1/the_det)
 
   def fracinverse(self):  # returns Mat of Fraction
+    """Creates inverse Mat of type Fraction."""
     the_det = self.det()
     if self.det() == 0:
       return
@@ -483,6 +426,8 @@ class Mat(object):
     return the_adj.simplemul(Fraction(1, the_det))
 
   def det(self):
+    """Calculates determinant."""
+
     if self.m != self.n:
       raise TypeError
     if self.m == 1:
@@ -513,32 +458,50 @@ class Mat(object):
     return Mat._make_type(new_values, saved_type)
 
   def get(self, key1, key2):
+    """Gets a value in matrix.
+
+    :param key1: vertical offset from top.
+    :param key2: horizontal offset from left.
+    :return: The value.
+    """
+
     if key2 == "all":
       return self.values[key1]
     return self.values[key1][key2]
 
   def alter(self, key1, key2, val):
+    """Changes a value in matrix.
+
+    :param key1: vertical offset from top.
+    :param key2: horizontal offset from left.
+    :param val: value to set.
+    """
+
     self.values[key1][key2] = val
     if Mat._check_float(self):
       self.makefloat()
-    return
 
   def delcol(self, col_num):
+    """Deletes column col_num."""
     for row_num in range(self.m):
       del self.values[row_num][col_num]
     self.n -= 1
     return
   
   def delrow(self, row_num):
+    """Deletes row row_num"""
     del self.values[row_num]
     self.m -= 1
     return
 
   def insert(self, vals:list, pos:int = 0, orientation:str = "r"):
+    """Insert row or column in matrix.
+
+    :param vals: values in row or column.
+    :param pos: index of matrix at which to insert new values.
+    :param orientation: 'r' for row or 'c' for column.
     """
-    pos - index of matrix at which to insert new values
-    orientation - 'r' for row or 'c' for column
-    """
+
     if orientation == "r":
       if len(vals) != self.n or pos < 0 or pos > self.m:
         raise TypeError
@@ -557,10 +520,12 @@ class Mat(object):
 
     if Mat._check_float(self):
       self.makefloat()
-    
-    return
   
   def transpose(self):
+    """Create transpose matrix.
+    Flips matrix about center diagonal.
+    """
+
     saved_type = type(self)
     if self.__class__.__name__ == "Point2D":
       saved_type = Mat
@@ -568,14 +533,22 @@ class Mat(object):
     return saved_type(new_values)
 
 
-"""Transformation matrix class for 2D plot"""
-class Transformation2D(Mat):  # square 2 x 2
+class Transformation2D(Mat):
+  """Transformation matrix class for 2D plot."""
 
   def __init__(self, vals:list):
+    """Initializes transformation matrix.
+
+    :param vals: list of lists of values.
+    :raises ValueError: if matrix is not square.
+    """
+
     super().__init__(vals)
 
     if not (self.m == self.n == 2):
-      raise TypeError
+      raise ValueError(
+        "matrix is not square"
+      )
 
   def applyunitsq(self):
     shape = Shape2D.unitsquare()
@@ -583,10 +556,21 @@ class Transformation2D(Mat):  # square 2 x 2
     return shape
 
 
-"""Point class for 2D plot"""
-class Point2D(Mat):  # vector 2 x 1
+class Point2D(Mat):
+  """Point class for 2D plot.
+
+  :var plotsize: size of point when plotted.
+  """
+
   plotsize = 5
+
   def __init__(self, x, y, plotsize=5):
+    """Initializes point.
+
+    :param x: value in horizontal axis.
+    :param y: value in vertical axis.
+    :param plotsize: size of point when plotted.
+    """
     super().__init__([[x], [y]])
     self.plotsize = plotsize
 
@@ -599,20 +583,31 @@ class Point2D(Mat):  # vector 2 x 1
   def alter(self, x, y):
     super().alter(0, 0, x)
     super().alter(1, 0, y)
-    return
 
   def plot(self, ax):
+    """Plot point using Matplotlib.pyplot.
+
+    :param ax: axis initialized using pyplot.
+    """
     ax.plot(self.x(), self.y(), "o", ms=self.plotsize)
 
 
-
-"""Shape class for 2D plot"""
 class Shape2D(object):
+  """Shape class for 2D plot.
+
+  :var points: list of Point2D vertices.
+  :var anchor: index of point from which shape is transformed.
+  """
+
   points = []
   anchor = 0
-  # anchor is point from which shape is drawn, rotated, etc
 
   def __init__(self, points:list):
+    """Initializes shape.
+
+    :param points: list of Point2D vertices.
+    """
+
     self.points = points
 
   def __repr__(self):
@@ -624,6 +619,12 @@ class Shape2D(object):
     return ret_str
 
   def unitsquare():
+    """Initializes unit square.
+    i.e. square at origin with length 1.
+
+    :return: The unit square.
+    """
+
     return Shape2D([
       Point2D(0, 0),
       Point2D(1, 0),
@@ -632,11 +633,20 @@ class Shape2D(object):
     ])
 
   def transform(self, t_mat):
+    """Applies transformation to self.
+
+    :param t_mat: transformation matrix.
+    """
+
     for p_num, p in enumerate(self.points):
       self.points[p_num] = t_mat * p
-    return
 
   def translate(self, x, y):
+    """Applies translation to self.
+
+    :param x: distance horizontally.
+    :param y: distance vertically.
+    """
 
     if len(self.points) == 1:
       saved_x = self.points[0].x()
@@ -648,9 +658,9 @@ class Shape2D(object):
 
     for p_num in range(len(self.points)):
       self.points[p_num] += t_point
-    return
 
   def setorigin(self):
+    """Sets anchor point to origin."""
     t_point = self.points[0]  # translation vector
     self.translate(-t_point.x(), -t_point.y())
 
@@ -692,9 +702,10 @@ class Shape2D(object):
     return sine, cosine
 
   def reflect(self, degrees):
-    """
-    degrees is angle between line through anchor and
-    line parallel to x axis
+    """Reflects self in a line defined by degrees.
+
+    :param degrees: angle between line through anchor and
+      line parallel to x axis
     """
     
     sin, cos = Shape2D._get_trig(2*degrees)
@@ -709,12 +720,11 @@ class Shape2D(object):
     self.transform(t_mat)
 
     self.translate(saved_anchor.x(), saved_anchor.y())
-    return
 
   def rotate(self, degrees):
-    """
-    degrees is anticlockwise from line parallel to x axis
-    rotates about anchor
+    """Applies rotation to self about anchor.
+
+    :param degrees: anticlockwise angle from line parallel to x axis.
     """
 
     sin, cos = Shape2D._get_trig(degrees)
@@ -729,9 +739,15 @@ class Shape2D(object):
     self.transform(t_mat)
     
     self.translate(saved_anchor.x(), saved_anchor.y())
-    return
 
   def enlarge(self, x, y):
+    """Applies enlargement to self.
+
+    :param x: factor horizontally.
+    :param y: factor vertically.
+    :return: None if self is a single point.
+    """
+
     if len(self.points) == 1:
       self.points[0].plotsize *= x
       return
@@ -744,9 +760,7 @@ class Shape2D(object):
       [0, y]
     ])
     self.transform(t_mat)
-
     self.translate(saved_anchor.x(), saved_anchor.y())
-    return
 
   def copy(self):
     return Shape2D(self.points[:])
@@ -758,6 +772,10 @@ class Shape2D(object):
     return Shape2D(new_points)
 
   def plot(self, ax):
+    """Plots shape using Matplotlib.pyplot.
+
+    :param ax: axis initialized using pyplot.
+    """
     if len(self.points) == 1:
       self.points[0].plot(ax)
 
@@ -768,4 +786,3 @@ class Shape2D(object):
       y.append(p.y())
 
     ax.fill(x, y)
-    return
