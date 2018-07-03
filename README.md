@@ -1,1 +1,1 @@
-# linalgebra
+# classymatrices
