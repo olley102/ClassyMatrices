@@ -11,14 +11,14 @@ with fig and ax set up before use.
 
 Example:
   # required imports
-  import linalgebra as la
+  import classymatrices as cm
   import matplotlib.pyplot as plt
   
   # figure setup
   fig, ax = plt.subplots()
   
-  # la and display
-  shape = la.Shape2D.unitsquare()
+  # cm and display
+  shape = cm.Shape2D.unitsquare()
   shape.plot(ax)
   ax.axis("scaled")
 """
