@@ -1,24 +1,24 @@
-import linalgebra as la
+import classymatrices as cm
 import matplotlib.pyplot as plt
 import math
 
 # single point (circle)
-shape = la.Shape2D([
-  la.Point2D(0, 0, 5)
+shape = cm.Shape2D([
+  cm.Point2D(0, 0, 5)
 ])
 
 # # triangle
-# shape = la.Shape2D([
-#   la.Point2D(0, 0),
-#   la.Point2D(1, 0),
-#   la.Point2D(0.5, math.sqrt(0.75))
+# shape = cm.Shape2D([
+#   cm.Point2D(0, 0),
+#   cm.Point2D(1, 0),
+#   cm.Point2D(0.5, math.sqrt(0.75))
 # ])
 
 
 def ontype(event):
   if event.key == "n":
     global shape
-    shape = la.Shape2D.unitsquare()
+    shape = cm.Shape2D.unitsquare()
   elif event.key == "a":
     shape.rotate(1)
   elif event.key == "d":
