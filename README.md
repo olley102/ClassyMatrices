@@ -4,7 +4,7 @@
 Check that you have the following modules available:
 - `math`
 - `random`
-- `fractions` (optional: only used in Mat.fracinverse())
+- `fractions` (optional: only used in `Mat.fracinverse()`)
 - `copy`
 - `matplotlib.pyplot`
 
