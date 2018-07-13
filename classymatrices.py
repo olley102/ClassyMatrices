@@ -392,8 +392,16 @@ class Mat(object):
   def cofactors(self):
     """Creates Mat of cofactors."""
 
-    if self.m <= 2:
-      return self
+    if self.m < 2:
+      return None
+
+    if self.m == 2:
+      temp_mat = self.copy()
+      temp_mat.values[0][0], temp_mat.values[1][1] = \
+        temp_mat.get(1, 1), temp_mat.get(0, 0)
+      temp_mat.values[0][1], temp_mat.values[1][0] = \
+        -temp_mat.get(1, 0), -temp_mat.get(0, 1)
+      return temp_mat
 
     temp_mat = Mat.zeros(self.m, self.m)
     for row_num in range(self.m):
