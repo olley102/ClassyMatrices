@@ -175,10 +175,26 @@ class Mat(object):
     
     self.is_float = True
     for row_num in range(self.m):
-        self.values[row_num] = list(map(
-          float, self.values[row_num]
-        ))
-  
+      self.values[row_num] = list(map(
+        float, self.values[row_num]
+      ))
+
+  def round(self, n):
+    """Rounds all values in-place to n digits from decimal point."""
+
+    for row_num in range(self.m):
+      self.values[row_num] = list(map(
+        lambda x: round(x, n),
+        self.values[row_num]
+      ))
+
+  def __round__(self, n):
+    """Returns self with all values rounded to n digits from
+    decimal point."""
+    temp_mat = self.copy()
+    temp_mat.round(n)
+    return temp_mat
+
   def _add(val1, val2):  # used for map
     return val1 + val2
   
@@ -395,14 +411,6 @@ class Mat(object):
     if self.m < 2:
       return None
 
-    if self.m == 2:
-      temp_mat = self.copy()
-      temp_mat.values[0][0], temp_mat.values[1][1] = \
-        temp_mat.get(1, 1), temp_mat.get(0, 0)
-      temp_mat.values[0][1], temp_mat.values[1][0] = \
-        -temp_mat.get(1, 0), -temp_mat.get(0, 1)
-      return temp_mat
-
     temp_mat = Mat.zeros(self.m, self.m)
     for row_num in range(self.m):
       for col_num in range(self.m):
@@ -418,7 +426,7 @@ class Mat(object):
     the_det = self.det()  # includes size validation
     if self.det() == 0:
       return
-    
+
     the_adj = self.cofactors().transpose()
 
     return the_adj * (1/the_det)
@@ -428,7 +436,7 @@ class Mat(object):
     the_det = self.det()
     if self.det() == 0:
       return
-    
+
     the_adj = self.cofactors().transpose()
 
     return the_adj.simplemul(Fraction(1, the_det))
