@@ -78,6 +78,7 @@ class Mat(object):
       text += "{}\n".format(row)
     return text
 
+  @staticmethod
   def zeros(vert_num, hor_num):
     """Initializes Mat of zeros.
 
@@ -87,7 +88,8 @@ class Mat(object):
     """
     
     return Mat([[0]*hor_num for i in range(vert_num)])
- 
+
+  @staticmethod
   def ones(vert_num, hor_num):
     """Initializes Mat of ones.
 
@@ -98,6 +100,7 @@ class Mat(object):
     
     return Mat([[1]*hor_num for i in range(vert_num)])
 
+  @staticmethod
   def identity(num):
     """Initializes identity Mat.
     Ones lie through center diagonal from top-left to bottom-right.
@@ -112,6 +115,7 @@ class Mat(object):
       temp_mat.values[row_num][row_num] = 1
     return temp_mat
 
+  @staticmethod
   def randuniform(vert_num, hor_num, start=0, stop=1):
     """Initializes Mat of uniformly random values.
     Range is inclusive.
@@ -128,6 +132,7 @@ class Mat(object):
     ]
     return Mat(new_values)
 
+  @staticmethod
   def randint(vert_num, hor_num, start, stop):
     """Initializes Mat of random ints.
     Range is inclusive.
@@ -144,6 +149,7 @@ class Mat(object):
     ]
     return Mat(new_values)
 
+  @staticmethod
   def _check_float(obj):
     """Checks if matrix contains float.
     Modifies obj.is_float.
@@ -195,9 +201,11 @@ class Mat(object):
     temp_mat.round(n)
     return temp_mat
 
+  @staticmethod
   def _add(val1, val2):  # used for map
     return val1 + val2
-  
+
+  @staticmethod
   def _mul(val1, val2):
     return val1 * val2
 
@@ -267,6 +275,7 @@ class Mat(object):
 
     return temp_mat
 
+  @staticmethod
   def _check_type(obj):
     classes = (
       "Mat",
@@ -275,12 +284,14 @@ class Mat(object):
     )
     return obj.__class__.__name__ in classes
 
+  @staticmethod
   def _make_type(vals, new_type):
     if new_type == type(Point2D(0, 0)):
       return Point2D(vals[0][0], vals[1][0])
     
     return new_type(vals)
 
+  @staticmethod
   def _check_mul_compat(obj, other):
     return obj.n == other.m and \
       Mat._check_type(obj) and Mat._check_type(other)
@@ -634,6 +645,7 @@ class Shape2D(object):
     
     return ret_str
 
+  @staticmethod
   def unitsquare():
     """Initializes unit square.
     i.e. square at origin with length 1.
@@ -680,6 +692,7 @@ class Shape2D(object):
     t_point = self.points[0]  # translation vector
     self.translate(-t_point.x(), -t_point.y())
 
+  @staticmethod
   def _get_trig(degrees):
     # for more accurate trig with rationals
     rad = math.radians(degrees)
