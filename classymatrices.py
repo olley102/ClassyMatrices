@@ -435,7 +435,7 @@ class Mat(object):
   def inverse(self):
     """Creates inverse Mat."""
     the_det = self.det()  # includes size validation
-    if self.det() == 0:
+    if the_det == 0:
       return
 
     the_adj = self.cofactors().transpose()
@@ -445,7 +445,7 @@ class Mat(object):
   def fracinverse(self):  # returns Mat of Fraction
     """Creates inverse Mat of type Fraction."""
     the_det = self.det()
-    if self.det() == 0:
+    if the_det == 0:
       return
 
     the_adj = self.cofactors().transpose()
